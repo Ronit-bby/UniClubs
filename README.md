@@ -88,9 +88,6 @@ The platform can be easily customized by:
 - Updating the floating icons
 - Adjusting animation timings
 
-## 📄 License
-
-This project is open source and available under the MIT License.
 
 ## 👨‍💻 Created By
 
