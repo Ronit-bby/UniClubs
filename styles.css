@@ -328,24 +328,7 @@ body {
     gap: 2rem;
 }
 
-.nav-link {
-    text-decoration: none;
-    color: #374151;
-    font-weight: 600;
-    padding: 0.7rem 1.5rem;
-    border-radius: 12px;
-    position: relative;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.1);
-}
 
-.nav-link:hover,
-.nav-link.active {
-    color: #dc2626;
-    background: rgba(220, 38, 38, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
-}
 
 /* Profile Dropdown */
 .profile-dropdown {
@@ -390,12 +373,6 @@ body {
     transform: translateY(-10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1001;
-}
-
-.dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
 }
 
 .dropdown-header {
@@ -472,14 +449,96 @@ body {
     margin-top: 80px;
 }
 
+/* CSS-only Section Navigation using :target */
 .section {
     display: none;
     min-height: calc(100vh - 80px);
     padding: 2rem 0;
 }
 
-.section.active {
+/* Show home section by default */
+.section#home {
     display: block;
+}
+
+/* Show section when targeted */
+.section:target {
+    display: block;
+}
+
+/* Hide home when any other section is targeted */
+.section:target ~ .section#home {
+    display: none;
+}
+
+/* CSS-only Profile Dropdown */
+.profile-checkbox:checked ~ .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Active navigation link styles */
+.nav-link {
+    text-decoration: none;
+    color: #374151;
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Style active navigation based on current target */
+#home:target ~ * .nav-link[href="#home"],
+.nav-link[href="#home"]:not([href*="#"]:not([href="#home"])) {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+#clubs:target ~ * .nav-link[href="#clubs"] {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+#events:target ~ * .nav-link[href="#events"] {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+#profile:target ~ * .nav-link[href="#profile"] {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+#attendance:target ~ * .nav-link[href="#attendance"] {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+#settings:target ~ * .nav-link[href="#settings"] {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.nav-link:hover {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
 }
 
 .container {
@@ -557,6 +616,24 @@ body {
     outline: none;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+/* Enhanced Button Styles for Links */
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
 .btn-3d {
@@ -1213,7 +1290,7 @@ body {
     transform: perspective(1000px) rotateX(3deg) rotateY(3deg) translateZ(10px);
 }
 
-/* Modal Enhanced */
+/* CSS-only Modal using :target */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1231,7 +1308,7 @@ body {
     transition: all 0.4s ease;
 }
 
-.modal-overlay.active {
+.modal-overlay:target {
     opacity: 1;
     visibility: visible;
 }
@@ -1244,7 +1321,7 @@ body {
     transition: transform 0.4s ease;
 }
 
-.modal-overlay.active .modal {
+.modal-overlay:target .modal {
     transform: translateY(0) scale(1);
 }
 

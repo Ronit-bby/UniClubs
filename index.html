@@ -40,16 +40,17 @@
                 <h2>UniClubs</h2>
             </div>
             <ul class="nav-menu">
-                <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
-                <li><a href="#" class="nav-link" data-section="clubs">Clubs</a></li>
-                <li><a href="#" class="nav-link" data-section="events">Events</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#clubs" class="nav-link">Clubs</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
             </ul>
             <div class="profile-dropdown">
-                <button class="profile-btn">
+                <input type="checkbox" id="profile-toggle" class="profile-checkbox" hidden>
+                <label for="profile-toggle" class="profile-btn">
                     <div class="profile-avatar">
                         <span>👤</span>
                     </div>
-                </button>
+                </label>
                 <div class="dropdown-menu">
                     <div class="dropdown-header">
                         <div class="user-info">
@@ -62,20 +63,20 @@
                     </div>
                     <div class="dropdown-divider"></div>
                     <ul class="dropdown-items">
-                        <li><a href="#" class="dropdown-item" data-section="profile">
+                        <li><a href="#profile" class="dropdown-item">
                             <span class="item-icon">👤</span>
                             Profile
                         </a></li>
-                        <li><a href="#" class="dropdown-item" data-section="attendance">
+                        <li><a href="#attendance" class="dropdown-item">
                             <span class="item-icon">✓</span>
                             Attendance
                         </a></li>
-                        <li><a href="#" class="dropdown-item" data-section="settings">
+                        <li><a href="#settings" class="dropdown-item">
                             <span class="item-icon">⚙️</span>
                             Settings
                         </a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a href="#" class="dropdown-item login-item">
+                        <li><a href="#login" class="dropdown-item login-item">
                             <span class="item-icon">🔐</span>
                             <span class="login-text">Login</span>
                         </a></li>
@@ -88,14 +89,14 @@
     <!-- Main Content -->
     <main class="main-content">
         <!-- Home Section -->
-        <section id="home" class="section active">
+        <section id="home" class="section">
             <div class="hero">
                 <div class="hero-content">
                     <h1 class="hero-title fade-in">Welcome to UniClubs</h1>
                     <p class="hero-subtitle fade-in-delay">Connect, Engage, and Grow with University Clubs & Activities</p>
                     <div class="hero-buttons fade-in-delay-2">
-                        <button class="btn btn-primary ripple btn-3d" data-section="clubs">Explore Clubs</button>
-                        <button class="btn btn-secondary ripple btn-3d" data-section="events">View Events</button>
+                        <a href="#clubs" class="btn btn-primary ripple btn-3d">Explore Clubs</a>
+                        <a href="#events" class="btn btn-secondary ripple btn-3d">View Events</a>
                     </div>
                 </div>
             </div>
@@ -440,11 +441,11 @@
     </main>
 
     <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
+    <div class="modal-overlay" id="login">
         <div class="modal glass-card">
             <div class="modal-header">
                 <h3>Welcome Back</h3>
-                <button class="modal-close">&times;</button>
+                <a href="#" class="modal-close">&times;</a>
             </div>
             <form class="login-form" id="loginForm">
                 <div class="form-group">

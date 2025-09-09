@@ -1,3 +1,8 @@
+// JavaScript functionality for UniClubs - Currently disabled, uncomment to restore functionality
+// All original JavaScript code is preserved below in block comments
+// To restore JavaScript functionality, simply remove the /* and */ comment blocks
+
+/*
 // DOM Elements
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section');
@@ -570,3 +575,8 @@ if (prefersReducedMotion.matches) {
     // Disable complex animations for users who prefer reduced motion
     document.documentElement.style.setProperty('--animation-duration', '0.1s');
 }
+*/
+
+// End of commented JavaScript code
+// HTML/CSS navigation is currently active
+// To restore JavaScript functionality, uncomment the code above
