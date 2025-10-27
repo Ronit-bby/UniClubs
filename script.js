@@ -1,5 +1,6 @@
 // DOM Elements
 const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.section');
 const profileBtn = document.querySelector('.profile-btn');
 const dropdownMenu = document.querySelector('.dropdown-menu');
 const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -7,43 +8,128 @@ const loginItem = document.querySelector('.login-item');
 const loginModal = document.getElementById('login');
 const modalClose = document.querySelector('.modal-close');
 const loginForm = document.getElementById('loginForm');
+const heroButtons = document.querySelectorAll('.hero-buttons .btn');
 const tiltCards = document.querySelectorAll('.tilt-card');
 const rippleButtons = document.querySelectorAll('.ripple');
 const statNumbers = document.querySelectorAll('.stat-number');
 
-// User state
-let currentUser = {
-    isLoggedIn: false,
-    name: 'Guest User',
-    email: 'guest@uniclubs.edu'
-};
+// Always use JavaScript-based navigation for SPA
+const isSPAMode = true;
+
+// Navigation functionality for SPA mode
+function showSection(targetSection) {
+    // Hide all sections
+    sections.forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show target section
+    const target = document.getElementById(targetSection);
+    if (target) {
+        target.classList.add('active');
+    }
+    
+    // Update active nav link
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${targetSection}`) {
+            link.classList.add('active');
+        }
+    });
+    
+    // Close dropdown if open
+    if (dropdownMenu) {
+        dropdownMenu.classList.remove('active');
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Trigger scroll animations for newly visible section
+    setTimeout(() => {
+        revealElements();
+        if (targetSection === 'home') {
+            animateStats();
+        } else if (targetSection === 'clubs') {
+            loadClubs();
+        } else if (targetSection === 'events') {
+            loadEvents();
+        } else if (targetSection === 'profile') {
+            loadProfile();
+        } else if (targetSection === 'attendance') {
+            loadAttendance();
+        }
+    }, 100);
+}
+
+// Add click events to nav links
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        // Prevent default and handle with JavaScript
+        e.preventDefault();
+        const section = link.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
+});
+
+// Add click events to hero buttons
+heroButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = button.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
+});
+
+// Add click events to dropdown items
+dropdownItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = item.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
+});
 
 // Profile dropdown functionality
 if (profileBtn) {
     profileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        dropdownMenu.classList.toggle('active');
+        if (dropdownMenu) {
+            dropdownMenu.classList.toggle('active');
+        }
     });
 }
 
 // Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-    if (profileBtn && !profileBtn.contains(e.target) && dropdownMenu && !dropdownMenu.contains(e.target)) {
+    if (profileBtn && dropdownMenu && 
+        !profileBtn.contains(e.target) && 
+        !dropdownMenu.contains(e.target)) {
         dropdownMenu.classList.remove('active');
     }
 });
 
 // Login/Logout functionality
 if (loginItem) {
-    loginItem.addEventListener('click', (e) => {
+    loginItem.addEventListener('click', async (e) => {
         e.preventDefault();
-        if (currentUser.isLoggedIn) {
+        const currentUser = UniClubsAPI.getCurrentUser();
+        
+        if (currentUser) {
             // Logout
-            currentUser.isLoggedIn = false;
-            currentUser.name = 'Guest User';
-            currentUser.email = 'guest@uniclubs.edu';
-            updateUserInterface();
-            showNotification('Logged out successfully!', 'success');
+            try {
+                await UniClubsAPI.logout();
+                updateUserInterface();
+                showNotification('Logged out successfully!', 'success');
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
         } else {
             // Show login modal
             if (loginModal) {
@@ -58,12 +144,10 @@ if (loginItem) {
 }
 
 // Modal functionality
-if (modalClose) {
+if (modalClose && loginModal) {
     modalClose.addEventListener('click', () => {
-        if (loginModal) {
-            loginModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+        loginModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
     });
 }
 
@@ -87,37 +171,26 @@ document.addEventListener('keydown', (e) => {
 
 // Form validation and submission
 if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
         
-        if (!email || !password) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-        
-        if (!isValidEmail(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-        
-        // Simulate login process
-        const submitBtn = loginForm.querySelector('.btn-login');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.textContent = 'Signing In...';
-        submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            // Update user state
-            currentUser.isLoggedIn = true;
-            currentUser.name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-            currentUser.email = email;
+        try {
+            // Show loading state
+            const submitBtn = loginForm.querySelector('.btn-login');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Signing In...';
+            submitBtn.disabled = true;
             
+            // Login via API
+            const user = await UniClubsAPI.login(email, password);
+            
+            // Update UI
             updateUserInterface();
             
+            // Close modal
             if (loginModal) {
                 loginModal.classList.remove('active');
             }
@@ -126,397 +199,268 @@ if (loginForm) {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
             
-            showNotification(`Welcome back, ${currentUser.name}!`, 'success');
-        }, 1500);
+            showNotification(`Welcome back, ${user.name}!`, 'success');
+        } catch (error) {
+            // Reset button
+            const submitBtn = loginForm.querySelector('.btn-login');
+            submitBtn.textContent = 'Sign In';
+            submitBtn.disabled = false;
+            
+            showNotification(error.message, 'error');
+        }
     });
 }
 
 // Update user interface based on login state
 function updateUserInterface() {
+    const currentUser = UniClubsAPI.getCurrentUser();
     const userName = document.querySelector('.user-name');
     const userEmail = document.querySelector('.user-email');
     const loginText = document.querySelector('.login-text');
     
-    if (userName) userName.textContent = currentUser.name;
-    if (userEmail) userEmail.textContent = currentUser.email;
+    if (userName) userName.textContent = currentUser ? currentUser.name : 'Guest User';
+    if (userEmail) userEmail.textContent = currentUser ? currentUser.email : 'guest@uniclubs.edu';
     if (loginText) {
-        loginText.textContent = currentUser.isLoggedIn ? 'Logout' : 'Login';
+        loginText.textContent = currentUser ? 'Logout' : 'Login';
     }
 }
 
-// Email validation helper
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// Enhanced 3D Tilt Effect
-tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 8;
-        const rotateY = (centerX - x) / 8;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(15px)`;
-        card.style.boxShadow = `${-rotateY}px ${rotateX}px 30px rgba(0, 0, 0, 0.2)`;
-    });
+// Load clubs data with simple AJAX
+async function loadClubs() {
+    const container = document.querySelector('#clubs .clubs-grid');
+    if (!container) return;
     
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-        card.style.boxShadow = '';
-    });
-});
-
-// Enhanced Ripple Effect
-rippleButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple-effect');
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-});
-
-// CSS for enhanced ripple effect
-const style = document.createElement('style');
-style.textContent = `
-    .ripple-effect {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        transform: scale(0);
-        animation: ripple-animation 0.6s linear;
-        pointer-events: none;
-    }
+    // Show loading message
+    container.innerHTML = '<div class="loading">Loading clubs...</div>';
     
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    .notification {
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        color: white;
-        font-weight: 600;
-        z-index: 3000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-    
-    .notification.show {
-        transform: translateX(0);
-    }
-    
-    .notification.success {
-        background: rgba(5, 150, 105, 0.9);
-    }
-    
-    .notification.error {
-        background: rgba(239, 68, 68, 0.9);
-    }
-`;
-document.head.appendChild(style);
-
-// Animated Statistics Counter (only on home page)
-function animateStats() {
-    if (statNumbers.length > 0) {
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.dataset.target);
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
-            
-            const counter = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    stat.textContent = target;
-                    clearInterval(counter);
-                } else {
-                    stat.textContent = Math.floor(current);
-                }
-            }, 16);
-        });
+    // Simple AJAX call to get clubs
+    try {
+        const clubs = await UniClubsAPI.getClubs();
+        // Display clubs
+        displayClubs(clubs);
+    } catch (error) {
+        container.innerHTML = '<div class="error">Failed to load clubs</div>';
+        console.error('Error loading clubs:', error);
     }
 }
 
-// Enhanced scroll animations with stagger effect
-function revealElements() {
-    const reveals = document.querySelectorAll('.club-card, .event-card, .stat-card, .feature-card');
+// Display clubs in a simple way
+function displayClubs(clubs) {
+    const container = document.querySelector('#clubs .clubs-grid');
+    if (!container) return;
     
-    reveals.forEach((element, index) => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < window.innerHeight - elementVisible) {
-            setTimeout(() => {
-                element.classList.add('scroll-reveal', 'revealed');
-            }, index * 150);
-        }
-    });
-}
-
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-        }
-    });
-}, observerOptions);
-
-// Initialize scroll animations
-document.addEventListener('DOMContentLoaded', () => {
-    const scrollElements = document.querySelectorAll('.club-card, .event-card, .stat-card, .feature-card');
-    scrollElements.forEach(el => {
-        el.classList.add('scroll-reveal');
-        observer.observe(el);
-    });
-    
-    // Animate stats on home page load
-    if (window.location.pathname.includes('home.html') || window.location.pathname === '/' || window.location.pathname.includes('index.html')) {
-        animateStats();
-    }
-    
-    // Initialize user interface
-    updateUserInterface();
-});
-
-// Enhanced parallax effect for background elements
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const shapes = document.querySelectorAll('.shape');
-    const floatElements = document.querySelectorAll('.float-element');
-    
-    shapes.forEach((shape, index) => {
-        const speed = 0.3 + (index * 0.1);
-        const rotate = scrolled * 0.02;
-        shape.style.transform = `translateY(${scrolled * speed}px) rotate(${rotate}deg) translateZ(${Math.sin(scrolled * 0.01) * 10}px)`;
-    });
-    
-    floatElements.forEach((element, index) => {
-        const speed = 0.2 + (index * 0.05);
-        const rotate = scrolled * 0.01;
-        element.style.transform = `translateY(${scrolled * speed}px) rotate(${rotate}deg)`;
-    });
-});
-
-// Enhanced mouse tracking for 3D effects
-document.addEventListener('mousemove', (e) => {
-    const mouseX = (e.clientX / window.innerWidth) * 100;
-    const mouseY = (e.clientY / window.innerHeight) * 100;
-    
-    // Update background elements based on mouse position
-    const shapes = document.querySelectorAll('.shape');
-    shapes.forEach((shape, index) => {
-        const speed = 0.02 + (index * 0.01);
-        const x = (mouseX - 50) * speed;
-        const y = (mouseY - 50) * speed;
-        shape.style.transform += ` translate(${x}px, ${y}px)`;
-    });
-});
-
-// Club join functionality
-const joinButtons = document.querySelectorAll('.btn-join');
-joinButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        if (!currentUser.isLoggedIn) {
-            showNotification('Please login to join clubs', 'error');
-            return;
-        }
-        
-        const clubCard = e.target.closest('.club-card');
-        const clubName = clubCard.querySelector('h3').textContent;
-        
-        // Simulate joining process
-        const originalText = button.textContent;
-        button.textContent = 'Joining...';
-        button.disabled = true;
-        
-        setTimeout(() => {
-            button.textContent = 'Joined!';
-            button.style.background = 'linear-gradient(135deg, #059669, #10b981)';
-            
-            setTimeout(() => {
-                showNotification(`Successfully joined ${clubName}!`, 'success');
-                button.textContent = originalText;
-                button.disabled = false;
-                button.style.background = '';
-            }, 1000);
-        }, 1000);
-    });
-});
-
-// RSVP functionality
-const rsvpButtons = document.querySelectorAll('.btn-rsvp');
-rsvpButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        if (!currentUser.isLoggedIn) {
-            showNotification('Please login to RSVP for events', 'error');
-            return;
-        }
-        
-        const eventCard = e.target.closest('.event-card');
-        const eventName = eventCard.querySelector('h3').textContent;
-        
-        // Simulate RSVP process
-        const originalText = button.textContent;
-        button.textContent = 'Processing...';
-        button.disabled = true;
-        
-        setTimeout(() => {
-            button.textContent = 'RSVP\'d!';
-            button.style.background = 'linear-gradient(135deg, #059669, #10b981)';
-            
-            setTimeout(() => {
-                showNotification(`RSVP confirmed for ${eventName}!`, 'success');
-                button.textContent = originalText;
-                button.disabled = false;
-                button.style.background = '';
-            }, 1000);
-        }, 1000);
-    });
-});
-
-// Attendance marking functionality
-const attendanceButton = document.querySelector('.btn-attendance');
-if (attendanceButton) {
-    attendanceButton.addEventListener('click', () => {
-        if (!currentUser.isLoggedIn) {
-            showNotification('Please login to mark attendance', 'error');
-            return;
-        }
-        
-        const originalText = attendanceButton.textContent;
-        const statusText = document.querySelector('.status-text');
-        
-        attendanceButton.textContent = 'Marking...';
-        attendanceButton.disabled = true;
-        
-        setTimeout(() => {
-            attendanceButton.textContent = 'Attendance Marked!';
-            attendanceButton.style.background = 'linear-gradient(135deg, #059669, #10b981)';
-            if (statusText) {
-                statusText.textContent = `Marked at ${new Date().toLocaleTimeString()}`;
-                statusText.style.color = '#059669';
-            }
-            
-            setTimeout(() => {
-                showNotification('Attendance marked successfully!', 'success');
-                attendanceButton.textContent = originalText;
-                attendanceButton.disabled = false;
-                attendanceButton.style.background = '';
-            }, 1500);
-        }, 1000);
-    });
-}
-
-// Notification system
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
-
-// Settings toggle functionality
-const toggleSwitches = document.querySelectorAll('.toggle-switch input[type="checkbox"]');
-toggleSwitches.forEach(toggle => {
-    toggle.addEventListener('change', (e) => {
-        const settingName = e.target.id.replace(/([A-Z])/g, ' $1').toLowerCase();
-        const status = e.target.checked ? 'enabled' : 'disabled';
-        showNotification(`${settingName} ${status}`, 'success');
-    });
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    // Reset any transforms that might be affected by resize
-    tiltCards.forEach(card => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-        card.style.boxShadow = '';
-    });
-});
-
-// Smooth cursor following enhancement
-let mouseTrail = [];
-document.addEventListener('mousemove', (e) => {
-    mouseTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-    
-    // Keep only recent trail points
-    mouseTrail = mouseTrail.filter(point => Date.now() - point.time < 1000);
-    
-    // Update cursor effect
-    const cursor = document.querySelector('.custom-cursor');
-    if (!cursor) {
-        const cursorElement = document.createElement('div');
-        cursorElement.classList.add('custom-cursor');
-        cursorElement.style.cssText = `
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.4), rgba(220, 38, 38, 0.1), transparent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-            mix-blend-mode: multiply;
+    // Create HTML for all clubs
+    let clubsHTML = '';
+    clubs.forEach(club => {
+        clubsHTML += `
+            <div class="club-card glass-card tilt-card">
+                <h3>${club.name}</h3>
+                <p>${club.members} members</p>
+                <button class="btn btn-join ripple" 
+                        data-club-id="${club.id}"
+                        ${club.joined ? 'disabled' : ''}>
+                    ${club.joined ? 'Joined' : 'Join Club'}
+                </button>
+            </div>
         `;
-        document.body.appendChild(cursorElement);
+    });
+    
+    // Put the HTML in the container
+    container.innerHTML = clubsHTML;
+    
+    // Add click events to join buttons
+    document.querySelectorAll('.btn-join').forEach(button => {
+        button.addEventListener('click', function() {
+            const clubId = parseInt(this.getAttribute('data-club-id'));
+            joinClub(clubId, this);
+        });
+    });
+}
+
+// Join a club with simple AJAX
+function joinClub(clubId, button) {
+    // Check if user is logged in
+    if (!UniClubsAPI.getCurrentUser()) {
+        alert('Please login to join clubs');
+        return;
     }
     
-    const customCursor = document.querySelector('.custom-cursor');
-    if (customCursor) {
-        customCursor.style.left = e.clientX - 15 + 'px';
-        customCursor.style.top = e.clientY - 15 + 'px';
+    // Show loading state
+    const originalText = button.textContent;
+    button.textContent = 'Joining...';
+    button.disabled = true;
+    
+    // Simple AJAX call to join club
+    UniClubsAPI.joinClub(clubId)
+        .then(response => {
+            // Update button
+            button.textContent = 'Joined';
+            alert(response.message);
+        })
+        .catch(error => {
+            // Reset button
+            button.textContent = originalText;
+            button.disabled = false;
+            alert('Failed to join club: ' + error.message);
+        });
+}
+
+// Load events data with simple AJAX
+async function loadEvents() {
+    const container = document.querySelector('#events .events-timeline');
+    if (!container) return;
+    
+    // Show loading message
+    container.innerHTML = '<div class="loading">Loading events...</div>';
+    
+    // Simple AJAX call to get events
+    try {
+        const events = await UniClubsAPI.getEvents();
+        // Display events
+        displayEvents(events);
+    } catch (error) {
+        container.innerHTML = '<div class="error">Failed to load events</div>';
+        console.error('Error loading events:', error);
     }
+}
+
+// Display events in a simple way
+function displayEvents(events) {
+    const container = document.querySelector('#events .events-timeline');
+    if (!container) return;
+    
+    // Create HTML for all events
+    let eventsHTML = '';
+    events.forEach(event => {
+        eventsHTML += `
+            <div class="event-card glass-card tilt-card">
+                <h3>${event.title}</h3>
+                <p>Date: ${event.date}</p>
+                <button class="btn btn-rsvp ripple" 
+                        data-event-id="${event.id}"
+                        ${event.rsvpd ? 'disabled' : ''}>
+                    ${event.rsvpd ? 'RSVP\'d' : 'RSVP'}
+                </button>
+            </div>
+        `;
+    });
+    
+    // Put the HTML in the container
+    container.innerHTML = eventsHTML;
+    
+    // Add click events to RSVP buttons
+    document.querySelectorAll('.btn-rsvp').forEach(button => {
+        button.addEventListener('click', function() {
+            const eventId = parseInt(this.getAttribute('data-event-id'));
+            rsvpToEvent(eventId, this);
+        });
+    });
+}
+
+// RSVP to an event with simple AJAX
+function rsvpToEvent(eventId, button) {
+    // Check if user is logged in
+    if (!UniClubsAPI.getCurrentUser()) {
+        alert('Please login to RSVP to events');
+        return;
+    }
+    
+    // Show loading state
+    const originalText = button.textContent;
+    button.textContent = 'Processing...';
+    button.disabled = true;
+    
+    // Simple AJAX call to RSVP
+    UniClubsAPI.rsvpToEvent(eventId)
+        .then(response => {
+            // Update button
+            button.textContent = 'RSVP\'d';
+            alert(response.message);
+        })
+        .catch(error => {
+            // Reset button
+            button.textContent = originalText;
+            button.disabled = false;
+            alert('Failed to RSVP: ' + error.message);
+        });
+}
+
+// Simplified login form submission
+if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Simple AJAX call to login
+        UniClubsAPI.login(email, password)
+            .then(user => {
+                alert(`Welcome ${user.name}!`);
+                // Close modal
+                loginModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                // Reset form
+                loginForm.reset();
+                // Update user interface
+                updateUserInterface();
+            })
+            .catch(error => {
+                alert('Login failed: ' + error.message);
+            });
+    });
+}
+
+// Simplified modal close
+if (modalClose) {
+    modalClose.addEventListener('click', function() {
+        loginModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+}
+
+// Keep existing navigation functionality
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        // Prevent default and handle with JavaScript
+        e.preventDefault();
+        const section = link.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
 });
 
-// Performance optimization for animations
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-if (prefersReducedMotion.matches) {
-    // Disable complex animations for users who prefer reduced motion
-    document.documentElement.style.setProperty('--animation-duration', '0.1s');
-}
+// Add click events to hero buttons
+heroButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = button.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
+});
+
+// Add click events to dropdown items
+dropdownItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = item.getAttribute('href').substring(1); // Remove #
+        if (section) {
+            showSection(section);
+        }
+    });
+});
+
+// Handle browser back/forward buttons
+window.addEventListener('hashchange', function() {
+    const sectionId = window.location.hash.substring(1) || 'home';
+    showSection(sectionId);
+});
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    // Show home section by default
+    showSection('home');
+});
