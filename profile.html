@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Club & Activity Management - Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #profile {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Interactive Background -->
+    <div class="bg-3d-container">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="floating-elements">
+            <div class="float-element float-1">🎓</div>
+            <div class="float-element float-2">📚</div>
+            <div class="float-element float-3">🎭</div>
+            <div class="float-element float-4">🎵</div>
+            <div class="float-element float-5">⚡</div>
+            <div class="float-element float-6">🏆</div>
+            <div class="float-element float-7">🎨</div>
+            <div class="float-element float-8">🤖</div>
+            <div class="float-element float-9">⚽</div>
+            <div class="float-element float-10">💡</div>
+            <div class="float-element float-11">🌟</div>
+            <div class="float-element float-12">🎪</div>
+        </div>
+        <div class="mesh-gradient"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo.svg" alt="UniClubs Logo" class="logo-icon">
+                <h2>UniClubs</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="clubs.html" class="nav-link">Clubs</a></li>
+                <li><a href="events.html" class="nav-link">Events</a></li>
+            </ul>
+            <div class="profile-dropdown">
+                <input type="checkbox" id="profile-toggle" class="profile-checkbox" hidden>
+                <label for="profile-toggle" class="profile-btn">
+                    <div class="profile-avatar">
+                        <span>👤</span>
+                    </div>
+                </label>
+                <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                        <div class="user-info">
+                            <div class="user-avatar">👤</div>
+                            <div class="user-details">
+                                <span class="user-name">Guest User</span>
+                                <span class="user-email">guest@uniclubs.edu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <ul class="dropdown-items">
+                        <li><a href="profile.html" class="dropdown-item active">
+                            <span class="item-icon">👤</span>
+                            Profile
+                        </a></li>
+                        <li><a href="attendance.html" class="dropdown-item">
+                            <span class="item-icon">✓</span>
+                            Attendance
+                        </a></li>
+                        <li><a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            Settings
+                        </a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a href="#login" class="dropdown-item login-item">
+                            <span class="item-icon">🔐</span>
+                            <span class="login-text">Login</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Profile Section -->
+        <section id="profile" class="section active">
+            <div class="container">
+                <h2 class="section-title">My Profile</h2>
+                <div class="profile-container">
+                    <div class="profile-card glass-card tilt-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar-large">
+                                <span>👤</span>
+                            </div>
+                            <div class="profile-info">
+                                <h3>Guest User</h3>
+                                <p>Computer Science Student</p>
+                                <span class="profile-status">Active Member</span>
+                            </div>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">Clubs Joined</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Events Attended</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">85%</span>
+                                <span class="stat-label">Attendance Rate</span>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary ripple">Edit Profile</button>
+                            <button class="btn btn-secondary ripple">View Activity</button>
+                        </div>
+                    </div>
+                    <div class="clubs-joined">
+                        <h3>My Clubs</h3>
+                        <div class="joined-clubs-list">
+                            <div class="joined-club-item glass-card">
+                                <span class="club-icon">🤖</span>
+                                <span class="club-name">Robotics Club</span>
+                                <span class="club-role">Member</span>
+                            </div>
+                            <div class="joined-club-item glass-card">
+                                <span class="club-icon">🎵</span>
+                                <span class="club-name">Music Club</span>
+                                <span class="club-role">Vice President</span>
+                            </div>
+                            <div class="joined-club-item glass-card">
+                                <span class="club-icon">🎨</span>
+                                <span class="club-name">Art & Design</span>
+                                <span class="club-role">Member</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="login">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3>Welcome Back</h3>
+                <a href="#" class="modal-close">&times;</a>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-login ripple">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#">Sign up here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created by Ronit Khanna,Saihajpreet kaur, Ranjot kaur</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

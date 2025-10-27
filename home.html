@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Club & Activity Management - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #home {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Interactive Background -->
+    <div class="bg-3d-container">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="floating-elements">
+            <div class="float-element float-1">🎓</div>
+            <div class="float-element float-2">📚</div>
+            <div class="float-element float-3">🎭</div>
+            <div class="float-element float-4">🎵</div>
+            <div class="float-element float-5">⚡</div>
+            <div class="float-element float-6">🏆</div>
+            <div class="float-element float-7">🎨</div>
+            <div class="float-element float-8">🤖</div>
+            <div class="float-element float-9">⚽</div>
+            <div class="float-element float-10">💡</div>
+            <div class="float-element float-11">🌟</div>
+            <div class="float-element float-12">🎪</div>
+        </div>
+        <div class="mesh-gradient"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo.svg" alt="UniClubs Logo" class="logo-icon">
+                <h2>UniClubs</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link active">Home</a></li>
+                <li><a href="clubs.html" class="nav-link">Clubs</a></li>
+                <li><a href="events.html" class="nav-link">Events</a></li>
+            </ul>
+            <div class="profile-dropdown">
+                <input type="checkbox" id="profile-toggle" class="profile-checkbox" hidden>
+                <label for="profile-toggle" class="profile-btn">
+                    <div class="profile-avatar">
+                        <span>👤</span>
+                    </div>
+                </label>
+                <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                        <div class="user-info">
+                            <div class="user-avatar">👤</div>
+                            <div class="user-details">
+                                <span class="user-name">Guest User</span>
+                                <span class="user-email">guest@uniclubs.edu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <ul class="dropdown-items">
+                        <li><a href="profile.html" class="dropdown-item">
+                            <span class="item-icon">👤</span>
+                            Profile
+                        </a></li>
+                        <li><a href="attendance.html" class="dropdown-item">
+                            <span class="item-icon">✓</span>
+                            Attendance
+                        </a></li>
+                        <li><a href="settings.html" class="dropdown-item">
+                            <span class="item-icon">⚙️</span>
+                            Settings
+                        </a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a href="#login" class="dropdown-item login-item">
+                            <span class="item-icon">🔐</span>
+                            <span class="login-text">Login</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title fade-in">Welcome to UniClubs</h1>
+                    <p class="hero-subtitle fade-in-delay">Connect, Engage, and Grow with University Clubs & Activities</p>
+                    <div class="hero-buttons fade-in-delay-2">
+                        <a href="clubs.html" class="btn btn-primary ripple btn-3d">Explore Clubs</a>
+                        <a href="events.html" class="btn btn-secondary ripple btn-3d">View Events</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interactive 3D Stats Cards -->
+            <div class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-card glass-card tilt-card interactive-3d">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-number" data-target="1250">0</div>
+                            <div class="stat-label">Active Members</div>
+                            <div class="stat-trend">+12% this month</div>
+                        </div>
+                        <div class="stat-card glass-card tilt-card interactive-3d">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-number" data-target="45">0</div>
+                            <div class="stat-label">Active Clubs</div>
+                            <div class="stat-trend">+3 new clubs</div>
+                        </div>
+                        <div class="stat-card glass-card tilt-card interactive-3d">
+                            <div class="stat-icon">📅</div>
+                            <div class="stat-number" data-target="128">0</div>
+                            <div class="stat-label">Events This Year</div>
+                            <div class="stat-trend">+25% increase</div>
+                        </div>
+                        <div class="stat-card glass-card tilt-card interactive-3d">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-number" data-target="98">0</div>
+                            <div class="stat-label">Satisfaction Rate</div>
+                            <div class="stat-trend">4.9/5 rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Feature Showcase -->
+            <div class="features-showcase">
+                <div class="container">
+                    <h2 class="section-title">Why Choose UniClubs?</h2>
+                    <div class="features-3d">
+                        <div class="feature-card glass-card tilt-3d">
+                            <div class="feature-icon-3d">
+                                <div class="icon-wrapper">🌟</div>
+                            </div>
+                            <h3>Premium Experience</h3>
+                            <p>Join exclusive clubs and participate in high-quality events designed for your growth.</p>
+                        </div>
+                        <div class="feature-card glass-card tilt-3d">
+                            <div class="feature-icon-3d">
+                                <div class="icon-wrapper">🤝</div>
+                            </div>
+                            <h3>Community Driven</h3>
+                            <p>Connect with like-minded students and build lasting friendships through shared interests.</p>
+                        </div>
+                        <div class="feature-card glass-card tilt-3d">
+                            <div class="feature-icon-3d">
+                                <div class="icon-wrapper">📈</div>
+                            </div>
+                            <h3>Skill Development</h3>
+                            <p>Develop new skills, gain experience, and enhance your resume through club activities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="login">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3>Welcome Back</h3>
+                <a href="#" class="modal-close">&times;</a>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-login ripple">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#">Sign up here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created by Ronit Khanna,Saihajpreet kaur, Ranjot kaur</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
