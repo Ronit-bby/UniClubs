@@ -131,11 +131,8 @@ if (loginItem) {
                 showNotification(error.message, 'error');
             }
         } else {
-            // Show login modal
-            if (loginModal) {
-                loginModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+            // Show login modal using hash navigation to trigger CSS :target
+            window.location.hash = 'login';
         }
         if (dropdownMenu) {
             dropdownMenu.classList.remove('active');
@@ -143,11 +140,11 @@ if (loginItem) {
     });
 }
 
-// Modal functionality
-if (modalClose && loginModal) {
-    modalClose.addEventListener('click', () => {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
+// Modal functionality - close when close button is clicked
+if (modalClose) {
+    modalClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.hash = '';
     });
 }
 
@@ -155,17 +152,15 @@ if (modalClose && loginModal) {
 if (loginModal) {
     loginModal.addEventListener('click', (e) => {
         if (e.target === loginModal) {
-            loginModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            window.location.hash = '';
         }
     });
 }
 
 // Close modal with Escape key
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && loginModal && loginModal.classList.contains('active')) {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
+    if (e.key === 'Escape') {
+        window.location.hash = '';
     }
 });
 
@@ -191,22 +186,21 @@ if (loginForm) {
             updateUserInterface();
             
             // Close modal
-            if (loginModal) {
-                loginModal.classList.remove('active');
-            }
-            document.body.style.overflow = 'auto';
+            window.location.hash = '';
             loginForm.reset();
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
             
-            showNotification(`Welcome back, ${user.name}!`, 'success');
+            // Show success notification
+            showNotification('Login successful! Welcome back.', 'success');
         } catch (error) {
             // Reset button
             const submitBtn = loginForm.querySelector('.btn-login');
             submitBtn.textContent = 'Sign In';
             submitBtn.disabled = false;
             
-            showNotification(error.message, 'error');
+            // Show error notification
+            showNotification(error.message || 'Login failed. Please try again.', 'error');
         }
     });
 }
