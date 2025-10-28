@@ -1,6 +1,4 @@
 // Simple Mock API Service for UniClubs
-// This is a beginner-friendly version with simple data and no complex logic
-
 // Simple data storage (in a real app, this would be on a server)
 let currentUser = null;
 let clubs = [

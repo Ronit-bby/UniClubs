@@ -16,6 +16,45 @@ const statNumbers = document.querySelectorAll('.stat-number');
 // Always use JavaScript-based navigation for SPA
 const isSPAMode = true;
 
+// Create custom cursor elements
+const cursor = document.createElement('div');
+const cursorInner = document.createElement('div');
+cursor.classList.add('cursor');
+cursorInner.classList.add('cursor-inner');
+document.body.appendChild(cursor);
+document.body.appendChild(cursorInner);
+
+// Custom cursor functionality - Simplified for better performance
+let mouseX = 0;
+let mouseY = 0;
+
+// Mouse move event - Direct positioning for better performance
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Position both cursors directly for better performance
+    cursor.style.left = `${mouseX}px`;
+    cursor.style.top = `${mouseY}px`;
+    cursorInner.style.left = `${mouseX}px`;
+    cursorInner.style.top = `${mouseY}px`;
+});
+
+// Add hover effect to interactive elements
+const hoverElements = document.querySelectorAll(
+    'a, button, .nav-link, .dropdown-item, .btn, .club-card, .event-card, .stat-card, .modal-close'
+);
+
+hoverElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursor.classList.add('cursor-hover');
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('cursor-hover');
+    });
+});
+
 // Navigation functionality for SPA mode
 function showSection(targetSection) {
     // Hide all sections
