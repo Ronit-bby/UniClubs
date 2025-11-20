@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams - UniClubs</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Teams specific styles */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .team-card {
+            position: relative;
+            padding: 2rem;
+            text-align: center;
+            overflow: visible;
+        }
+        
+        .team-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .team-card h3 {
+            color: #374151;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .team-stream,
+        .team-year {
+            color: #6b7280;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .team-year {
+            margin-bottom: 1.5rem;
+        }
+        
+        .team-card .btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 3D Interactive Background (Same as index.html) -->
+    <div class="bg-3d-container">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="floating-elements">
+            <div class="float-element float-1">🎓</div>
+            <div class="float-element float-2">📚</div>
+            <div class="float-element float-3">🎭</div>
+            <div class="float-element float-4">🎵</div>
+            <div class="float-element float-5">⚡</div>
+            <div class="float-element float-6">🏆</div>
+            <div class="float-element float-7">🎨</div>
+            <div class="float-element float-8">🤖</div>
+            <div class="float-element float-9">⚽</div>
+            <div class="float-element float-10">💡</div>
+        </div>
+        <div class="mesh-gradient"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="if(window.App) window.App.navigateToHome(); else window.location.href='index.html#home';" style="cursor: pointer;">
+                <img src="logo.svg" alt="UniClubs Logo" class="logo-icon">
+                <h2>UniClubs</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#clubs" class="nav-link">Clubs</a></li>
+                <li><a href="index.html#events" class="nav-link">Events</a></li>
+                <li><a href="#" class="nav-link active">Teams</a></li>
+            </ul>
+            <!-- Profile Dropdown (Simplified for Teams page) -->
+            <div class="profile-dropdown">
+                <div class="profile-btn">
+                    <div class="profile-avatar"><span>👤</span></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="margin-top: 80px;">
+        <section id="teams" class="section" style="display: block !important; min-height: calc(100vh - 80px); padding: 2rem 0;">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+                <h2 class="section-title" style="text-align: center; font-size: 2.8rem; color: #374151; margin-bottom: 3rem; font-weight: 800;">Student Teams</h2>
+                
+                <p style="color: red; font-size: 2rem; text-align: center; padding: 2rem;">TEST - CAN YOU SEE THIS?</p>
+
+                <!-- Teams Grid (Direct HTML like clubs) -->
+                <div class="teams-grid">
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">🤖</div>
+                        <h3>Robotics Squad</h3>
+                        <p class="team-stream">Stream: CSE</p>
+                        <p class="team-year">Year: 3rd Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">🎭</div>
+                        <h3>Cultural Crew</h3>
+                        <p class="team-stream">Stream: Humanities</p>
+                        <p class="team-year">Year: 2nd Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">💻</div>
+                        <h3>Tech Ninjas</h3>
+                        <p class="team-stream">Stream: IT</p>
+                        <p class="team-year">Year: 1st Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">⚽</div>
+                        <h3>Sports Warriors</h3>
+                        <p class="team-stream">Stream: Sports</p>
+                        <p class="team-year">Year: 2nd Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">🎨</div>
+                        <h3>Design Masters</h3>
+                        <p class="team-stream">Stream: Design</p>
+                        <p class="team-year">Year: 3rd Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                    <div class="team-card glass-card tilt-card">
+                        <div class="team-icon">🎵</div>
+                        <h3>Music Legends</h3>
+                        <p class="team-stream">Stream: Music</p>
+                        <p class="team-year">Year: 4th Year</p>
+                        <button class="btn btn-primary ripple">💬 Open Chat</button>
+                    </div>
+                </div>
+
+                <!-- Floating Add Button -->
+                <button class="floating-fab" onclick="alert('Create Team Modal - Coming Soon!')" title="Create New Team">+</button>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created by Ronit Khanna,Saihajpreet kaur, Ranjot kaur</p>
+        </div>
+    </footer>
+</body>
+
+</html>

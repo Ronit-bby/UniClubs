@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Club & Activity Management</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- 3D Interactive Background -->
     <div class="bg-3d-container">
@@ -53,7 +55,7 @@
             <div class="float-element float-34">📊</div>
             <div class="float-element float-35">🧪</div>
             <div class="float-element float-36">🧭</div>
-            
+
         </div>
         <div class="mesh-gradient"></div>
     </div>
@@ -61,7 +63,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <div class="nav-logo" onclick="if(window.App) window.App.navigateToHome(); else window.location.href='index.html#home';" style="cursor: pointer;">
                 <img src="logo.svg" alt="UniClubs Logo" class="logo-icon">
                 <h2>UniClubs</h2>
             </div>
@@ -69,6 +71,7 @@
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#clubs" class="nav-link">Clubs</a></li>
                 <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#teams" class="nav-link">Teams</a></li>
             </ul>
             <div class="profile-dropdown">
                 <input type="checkbox" id="profile-toggle" class="profile-checkbox" hidden>
@@ -90,22 +93,22 @@
                     <div class="dropdown-divider"></div>
                     <ul class="dropdown-items">
                         <li><a href="#profile" class="dropdown-item">
-                            <span class="item-icon">👤</span>
-                            Profile
-                        </a></li>
+                                <span class="item-icon">👤</span>
+                                Profile
+                            </a></li>
                         <li><a href="#attendance" class="dropdown-item">
-                            <span class="item-icon">✓</span>
-                            Attendance
-                        </a></li>
+                                <span class="item-icon">✓</span>
+                                Attendance
+                            </a></li>
                         <li><a href="#settings" class="dropdown-item">
-                            <span class="item-icon">⚙️</span>
-                            Settings
-                        </a></li>
+                                <span class="item-icon">⚙️</span>
+                                Settings
+                            </a></li>
                         <li class="dropdown-divider"></li>
                         <li><a href="#login" class="dropdown-item login-item">
-                            <span class="item-icon">🔐</span>
-                            <span class="login-text">Login</span>
-                        </a></li>
+                                <span class="item-icon">🔐</span>
+                                <span class="login-text">Login</span>
+                            </a></li>
                     </ul>
                 </div>
             </div>
@@ -119,14 +122,15 @@
             <div class="hero">
                 <div class="hero-content">
                     <h1 class="hero-title fade-in">Welcome to UniClubs</h1>
-                    <p class="hero-subtitle fade-in-delay">Connect, Engage, and Grow with University Clubs & Activities</p>
+                    <p class="hero-subtitle fade-in-delay">Connect, Engage, and Grow with University Clubs & Activities
+                    </p>
                     <div class="hero-buttons fade-in-delay-2">
                         <a href="#clubs" class="btn btn-primary ripple btn-3d">Explore Clubs</a>
                         <a href="#events" class="btn btn-secondary ripple btn-3d">View Events</a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Interactive 3D Stats Cards -->
             <div class="stats-section">
                 <div class="container">
@@ -176,7 +180,8 @@
                                 <div class="icon-wrapper">🤝</div>
                             </div>
                             <h3>Community Driven</h3>
-                            <p>Connect with like-minded students and build lasting friendships through shared interests.</p>
+                            <p>Connect with like-minded students and build lasting friendships through shared interests.
+                            </p>
                         </div>
                         <div class="feature-card glass-card tilt-3d">
                             <div class="feature-icon-3d">
@@ -203,7 +208,7 @@
                             <span class="stat">👥 245 members</span>
                             <span class="stat">📅 3 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="1" onclick="window.App?.openJoinModal(1)">Join Club</button>
                     </div>
                     <div class="club-card glass-card tilt-card">
                         <div class="club-icon">🎭</div>
@@ -213,7 +218,7 @@
                             <span class="stat">👥 189 members</span>
                             <span class="stat">📅 2 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="2" onclick="window.App?.openJoinModal(2)">Join Club</button>
                     </div>
                     <div class="club-card glass-card tilt-card">
                         <div class="club-icon">🎵</div>
@@ -223,7 +228,7 @@
                             <span class="stat">👥 312 members</span>
                             <span class="stat">📅 4 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="3" onclick="window.App?.openJoinModal(3)">Join Club</button>
                     </div>
                     <div class="club-card glass-card tilt-card">
                         <div class="club-icon">📚</div>
@@ -233,7 +238,7 @@
                             <span class="stat">👥 156 members</span>
                             <span class="stat">📅 2 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="4" onclick="window.App?.openJoinModal(4)">Join Club</button>
                     </div>
                     <div class="club-card glass-card tilt-card">
                         <div class="club-icon">⚽</div>
@@ -243,7 +248,7 @@
                             <span class="stat">👥 428 members</span>
                             <span class="stat">📅 6 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="5" onclick="window.App?.openJoinModal(5)">Join Club</button>
                     </div>
                     <div class="club-card glass-card tilt-card">
                         <div class="club-icon">🎨</div>
@@ -253,7 +258,7 @@
                             <span class="stat">👥 203 members</span>
                             <span class="stat">📅 3 events/month</span>
                         </div>
-                        <button class="btn btn-join ripple">Join Club</button>
+                        <button class="btn btn-join ripple" data-club-id="6" onclick="window.App?.openJoinModal(6)">Join Club</button>
                     </div>
                 </div>
             </div>
@@ -271,12 +276,15 @@
                         </div>
                         <div class="event-content">
                             <h3>Tech Innovation Summit</h3>
-                            <p>Join us for a day of innovation, technology demos, and networking with industry leaders.</p>
+                            <p>Join us for a day of innovation, technology demos, and networking with industry leaders.
+                            </p>
                             <div class="event-meta">
                                 <span class="time">⏰ 9:00 AM - 5:00 PM</span>
                                 <span class="location">📍 Main Auditorium</span>
                             </div>
-                            <button class="btn btn-rsvp ripple">RSVP</button>
+                            <div id="rsvp-buttons-root">
+                                <!-- RSVP buttons will be injected here by React -->
+                            </div>
                         </div>
                     </div>
                     <div class="event-card glass-card tilt-card">
@@ -286,12 +294,15 @@
                         </div>
                         <div class="event-content">
                             <h3>Cultural Night</h3>
-                            <p>Celebrate diversity through music, dance, and cultural performances from around the world.</p>
+                            <p>Celebrate diversity through music, dance, and cultural performances from around the
+                                world.</p>
                             <div class="event-meta">
                                 <span class="time">⏰ 6:00 PM - 10:00 PM</span>
                                 <span class="location">📍 Student Center</span>
                             </div>
-                            <button class="btn btn-rsvp ripple">RSVP</button>
+                            <div id="rsvp-buttons-root">
+                                <!-- RSVP buttons will be injected here by React -->
+                            </div>
                         </div>
                     </div>
                     <div class="event-card glass-card tilt-card">
@@ -301,12 +312,15 @@
                         </div>
                         <div class="event-content">
                             <h3>Career Fair 2024</h3>
-                            <p>Meet potential employers, explore career opportunities, and network with professionals.</p>
+                            <p>Meet potential employers, explore career opportunities, and network with professionals.
+                            </p>
                             <div class="event-meta">
                                 <span class="time">⏰ 10:00 AM - 4:00 PM</span>
                                 <span class="location">📍 Sports Complex</span>
                             </div>
-                            <button class="btn btn-rsvp ripple">RSVP</button>
+                            <div id="rsvp-buttons-root">
+                                <!-- RSVP buttons will be injected here by React -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -331,7 +345,7 @@
                         </div>
                         <div class="profile-stats">
                             <div class="stat-item">
-                                <span class="stat-value">3</span>
+                                <span class="stat-value" id="clubs-count">3</span>
                                 <span class="stat-label">Clubs Joined</span>
                             </div>
                             <div class="stat-item">
@@ -350,7 +364,8 @@
                     </div>
                     <div class="clubs-joined">
                         <h3>My Clubs</h3>
-                        <div class="joined-clubs-list">
+                        <div class="joined-clubs-list" id="joined-clubs-container">
+                            <!-- Joined clubs will be injected here by React -->
                             <div class="joined-club-item glass-card">
                                 <span class="club-icon">🤖</span>
                                 <span class="club-name">Robotics Club</span>
@@ -380,8 +395,9 @@
                     <div class="attendance-card glass-card tilt-card">
                         <div class="attendance-icon">✓</div>
                         <h3>Quick Attendance</h3>
-                        <p>Mark your attendance for today's club activities and events. Make sure you're present and engaged!</p>
-                        <button class="btn btn-attendance ripple">Mark Attendance</button>
+                        <p>Mark your attendance for today's club activities and events. Make sure you're present and
+                            engaged!</p>
+                        <button class="btn btn-attendance ripple" data-event-id="1" onclick="window.App?.markAttendance(1)">Mark Attendance</button>
                         <div class="attendance-status">
                             <p>Last attendance: <span class="status-text">Not marked today</span></p>
                         </div>
@@ -464,6 +480,19 @@
                 </div>
             </div>
         </section>
+
+        <!-- Teams Section -->
+        <section id="teams" class="section" style="padding: 3rem 0;">
+            <div class="container">
+                <h2 class="section-title" style="margin-bottom: 1rem;">Student Teams</h2>
+                <p style="text-align: center; color: #6b7280; font-size: 1.1rem; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Join collaborative teams to work on exciting projects with fellow students
+                </p>
+                
+                <!-- React Teams Root -->
+                <div id="teams-root"></div>
+            </div>
+        </section>
     </main>
 
     <!-- Login Modal -->
@@ -495,7 +524,19 @@
         </div>
     </footer>
 
+    <!-- React Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- React App -->
+    <script type="text/babel" data-type="module" src="react-app.jsx"></script>
+
+    <!-- React Root for Modals and Overlays -->
+    <div id="react-root"></div>
+
     <script src="api.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

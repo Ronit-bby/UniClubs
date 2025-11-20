@@ -97,6 +97,9 @@ function showSection(targetSection) {
             loadProfile();
         } else if (targetSection === 'attendance') {
             loadAttendance();
+        } else if (targetSection === 'teams') {
+            // Teams section loaded
+            console.log('Teams section loaded');
         }
     }, 100);
 }
@@ -258,198 +261,16 @@ function updateUserInterface() {
     }
 }
 
-// Load clubs data with simple AJAX
-async function loadClubs() {
-    const container = document.querySelector('#clubs .clubs-grid');
-    if (!container) return;
-    
-    // Show loading message
-    container.innerHTML = '<div class="loading">Loading clubs...</div>';
-    
-    // Simple AJAX call to get clubs
-    try {
-        const clubs = await UniClubsAPI.getClubs();
-        // Display clubs
-        displayClubs(clubs);
-    } catch (error) {
-        container.innerHTML = '<div class="error">Failed to load clubs</div>';
-        console.error('Error loading clubs:', error);
-    }
+// Load clubs data - handled by React
+function loadClubs() {
+    // Clubs are now fully managed by React
+    console.log('Clubs loaded by React');
 }
 
-// Display clubs in a simple way
-function displayClubs(clubs) {
-    const container = document.querySelector('#clubs .clubs-grid');
-    if (!container) return;
-    
-    // Create HTML for all clubs
-    let clubsHTML = '';
-    clubs.forEach(club => {
-        clubsHTML += `
-            <div class="club-card glass-card tilt-card">
-                <h3>${club.name}</h3>
-                <p>${club.members} members</p>
-                <button class="btn btn-join ripple" 
-                        data-club-id="${club.id}"
-                        ${club.joined ? 'disabled' : ''}>
-                    ${club.joined ? 'Joined' : 'Join Club'}
-                </button>
-            </div>
-        `;
-    });
-    
-    // Put the HTML in the container
-    container.innerHTML = clubsHTML;
-    
-    // Add click events to join buttons
-    document.querySelectorAll('.btn-join').forEach(button => {
-        button.addEventListener('click', function() {
-            const clubId = parseInt(this.getAttribute('data-club-id'));
-            joinClub(clubId, this);
-        });
-    });
-}
-
-// Join a club with simple AJAX
-function joinClub(clubId, button) {
-    // Check if user is logged in
-    if (!UniClubsAPI.getCurrentUser()) {
-        alert('Please login to join clubs');
-        return;
-    }
-    
-    // Show loading state
-    const originalText = button.textContent;
-    button.textContent = 'Joining...';
-    button.disabled = true;
-    
-    // Simple AJAX call to join club
-    UniClubsAPI.joinClub(clubId)
-        .then(response => {
-            // Update button
-            button.textContent = 'Joined';
-            alert(response.message);
-        })
-        .catch(error => {
-            // Reset button
-            button.textContent = originalText;
-            button.disabled = false;
-            alert('Failed to join club: ' + error.message);
-        });
-}
-
-// Load events data with simple AJAX
-async function loadEvents() {
-    const container = document.querySelector('#events .events-timeline');
-    if (!container) return;
-    
-    // Show loading message
-    container.innerHTML = '<div class="loading">Loading events...</div>';
-    
-    // Simple AJAX call to get events
-    try {
-        const events = await UniClubsAPI.getEvents();
-        // Display events
-        displayEvents(events);
-    } catch (error) {
-        container.innerHTML = '<div class="error">Failed to load events</div>';
-        console.error('Error loading events:', error);
-    }
-}
-
-// Display events in a simple way
-function displayEvents(events) {
-    const container = document.querySelector('#events .events-timeline');
-    if (!container) return;
-    
-    // Create HTML for all events
-    let eventsHTML = '';
-    events.forEach(event => {
-        eventsHTML += `
-            <div class="event-card glass-card tilt-card">
-                <h3>${event.title}</h3>
-                <p>Date: ${event.date}</p>
-                <button class="btn btn-rsvp ripple" 
-                        data-event-id="${event.id}"
-                        ${event.rsvpd ? 'disabled' : ''}>
-                    ${event.rsvpd ? 'RSVP\'d' : 'RSVP'}
-                </button>
-            </div>
-        `;
-    });
-    
-    // Put the HTML in the container
-    container.innerHTML = eventsHTML;
-    
-    // Add click events to RSVP buttons
-    document.querySelectorAll('.btn-rsvp').forEach(button => {
-        button.addEventListener('click', function() {
-            const eventId = parseInt(this.getAttribute('data-event-id'));
-            rsvpToEvent(eventId, this);
-        });
-    });
-}
-
-// RSVP to an event with simple AJAX
-function rsvpToEvent(eventId, button) {
-    // Check if user is logged in
-    if (!UniClubsAPI.getCurrentUser()) {
-        alert('Please login to RSVP to events');
-        return;
-    }
-    
-    // Show loading state
-    const originalText = button.textContent;
-    button.textContent = 'Processing...';
-    button.disabled = true;
-    
-    // Simple AJAX call to RSVP
-    UniClubsAPI.rsvpToEvent(eventId)
-        .then(response => {
-            // Update button
-            button.textContent = 'RSVP\'d';
-            alert(response.message);
-        })
-        .catch(error => {
-            // Reset button
-            button.textContent = originalText;
-            button.disabled = false;
-            alert('Failed to RSVP: ' + error.message);
-        });
-}
-
-// Simplified login form submission
-if (loginForm) {
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        // Simple AJAX call to login
-        UniClubsAPI.login(email, password)
-            .then(user => {
-                alert(`Welcome ${user.name}!`);
-                // Close modal
-                loginModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                // Reset form
-                loginForm.reset();
-                // Update user interface
-                updateUserInterface();
-            })
-            .catch(error => {
-                alert('Login failed: ' + error.message);
-            });
-    });
-}
-
-// Simplified modal close
-if (modalClose) {
-    modalClose.addEventListener('click', function() {
-        loginModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
+// Load events data - handled by React
+function loadEvents() {
+    // Events are now fully managed by React
+    console.log('Events loaded by React');
 }
 
 // Keep existing navigation functionality
@@ -496,4 +317,97 @@ window.addEventListener('hashchange', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Show home section by default
     showSection('home');
+    
+    // Animate stats on load
+    animateStats();
+    
+    // Add scroll reveal animations
+    setupScrollReveal();
+    
+    // Setup ripple effects
+    setupRippleEffects();
 });
+
+// Animate stat numbers
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-number');
+    stats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        if (!target) return;
+        
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                stat.textContent = target;
+                clearInterval(timer);
+            } else {
+                stat.textContent = Math.floor(current);
+            }
+        }, 30);
+    });
+}
+
+// Setup scroll reveal animations
+function setupScrollReveal() {
+    const elements = document.querySelectorAll('.scroll-reveal');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    elements.forEach(el => observer.observe(el));
+}
+
+// Setup ripple effects
+function setupRippleEffects() {
+    const rippleButtons = document.querySelectorAll('.ripple');
+    
+    rippleButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple-effect');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+// Reveal elements when scrolled into view
+function revealElements() {
+    const reveals = document.querySelectorAll('.scroll-reveal');
+    reveals.forEach(element => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < windowHeight - elementVisible) {
+            element.classList.add('revealed');
+        }
+    });
+}
+
+// Load profile data
+function loadProfile() {
+    // Profile data is handled by React
+}
+
+// Load attendance data
+function loadAttendance() {
+    // Attendance data is handled by React
+}
