@@ -77,7 +77,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo" onclick="if(window.App) window.App.navigateToHome(); else window.location.href='index.html#home';" style="cursor: pointer;">
+            <div class="nav-logo" onclick="window.location.href='index.html#home'; window.scrollTo({top: 0, behavior: 'smooth'});" style="cursor: pointer;">
                 <img src="logo.svg" alt="UniClubs Logo" class="logo-icon">
                 <h2>UniClubs</h2>
             </div>
