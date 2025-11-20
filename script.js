@@ -57,51 +57,66 @@ hoverElements.forEach(element => {
 
 // Navigation functionality for SPA mode
 function showSection(targetSection) {
+    // Show loader
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+        loader.classList.add('active');
+    }
+    
     // Hide all sections
     sections.forEach(section => {
         section.classList.remove('active');
     });
     
-    // Show target section
-    const target = document.getElementById(targetSection);
-    if (target) {
-        target.classList.add('active');
-    }
-    
-    // Update active nav link
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${targetSection}`) {
-            link.classList.add('active');
-        }
-    });
-    
-    // Close dropdown if open
-    if (dropdownMenu) {
-        dropdownMenu.classList.remove('active');
-    }
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Trigger scroll animations for newly visible section
     setTimeout(() => {
-        revealElements();
-        if (targetSection === 'home') {
-            animateStats();
-        } else if (targetSection === 'clubs') {
-            loadClubs();
-        } else if (targetSection === 'events') {
-            loadEvents();
-        } else if (targetSection === 'profile') {
-            loadProfile();
-        } else if (targetSection === 'attendance') {
-            loadAttendance();
-        } else if (targetSection === 'teams') {
-            // Teams section loaded
-            console.log('Teams section loaded');
+        // Show target section
+        const target = document.getElementById(targetSection);
+        if (target) {
+            target.classList.add('active');
         }
-    }, 100);
+        
+        // Update active nav link
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${targetSection}`) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Close dropdown if open
+        if (dropdownMenu) {
+            dropdownMenu.classList.remove('active');
+        }
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Trigger scroll animations for newly visible section
+        setTimeout(() => {
+            revealElements();
+            if (targetSection === 'home') {
+                animateStats();
+            } else if (targetSection === 'clubs') {
+                loadClubs();
+            } else if (targetSection === 'events') {
+                loadEvents();
+            } else if (targetSection === 'profile') {
+                loadProfile();
+            } else if (targetSection === 'attendance') {
+                loadAttendance();
+            } else if (targetSection === 'teams') {
+                // Teams section loaded
+                console.log('Teams section loaded');
+            }
+        }, 100);
+        
+        // Hide loader after a delay
+        setTimeout(() => {
+            if (loader) {
+                loader.classList.remove('active');
+            }
+        }, 200); // Reduced to 200ms
+    }, 100); // Reduced to 100ms
 }
 
 // Add click events to nav links
@@ -315,6 +330,15 @@ window.addEventListener('hashchange', function() {
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
+    // Hide loader on initial page load
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+        loader.classList.add('active'); // Show initially
+        setTimeout(() => {
+            loader.classList.remove('active');
+        }, 300); // Reduced to 300ms
+    }
+    
     // Show home section by default
     showSection('home');
     
