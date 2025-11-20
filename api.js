@@ -16,7 +16,7 @@ let events = [
     { id: 3, title: 'Career Fair 2024', date: '2024-01-28', rsvpd: false }
 ];
 
-// Simple API functions (beginner-friendly with no complex logic)
+// Simple API functions 
 const UniClubsAPI = {
     // Login user
     login: function(email, password) {
